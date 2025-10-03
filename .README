@@ -1,0 +1,57 @@
+Matrix Operations Service
+=========================
+
+Overview
+--------
+Matrix Operations Service is a Spring Boot web application that accepts CSV uploads of square integer matrices and performs several operations: echo, inversion (transpose), flattening, summation, and multiplication. Each operation is exposed as a plain-text HTTP endpoint that accepts a multipart form upload.
+
+Key Features
+------------
+- Echo: returns the matrix exactly as uploaded.
+- Invert: returns the transpose of the matrix.
+- Flatten: flattens the matrix into a single comma-separated row.
+- Sum: returns the sum of all matrix elements using arbitrary-precision arithmetic.
+- Multiply: returns the product of all matrix elements using arbitrary-precision arithmetic.
+- Robust validation with descriptive error responses for malformed input.
+- Swagger UI powered by Springdoc at `/swagger-ui/index.html` documenting every endpoint.
+- Unit and integration tests covering service logic and HTTP endpoints.
+
+Requirements
+------------
+- Java Development Kit (JDK) 17 or later.
+- Gradle wrapper bundled with the project (`./gradlew`).
+
+Running the Application
+-----------------------
+1. Install a compatible JDK and ensure `JAVA_HOME` points to it.
+
+2. Start the web server:
+3. Upload a matrix via `curl`:
+   ```sh
+   curl -F 'file=@/path/to/matrix.csv' http://localhost:8080/echo
+   ```
+4. Browse the interactive API documentation:
+   ```
+   http://localhost:8080/swagger-ui/index.html
+   ```
+
+Project Structure Highlights
+----------------------------
+- `src/main/java/com/league/matrix/service/MatrixService.java`: core matrix parsing and operations.
+- `src/main/java/com/league/matrix/controller/MatrixController.java`: REST endpoints with Swagger annotations.
+- `src/main/java/com/league/matrix/controller/MatrixExceptionHandler.java`: centralized error handling.
+- `src/test/java/com/league/matrix/`: unit and integration tests.
+
+Endpoints Summary
+-----------------
+All endpoints accept multipart form uploads with a `file` part containing a CSV matrix and respond with `text/plain`.
+- `POST /echo`
+- `POST /invert`
+- `POST /flatten`
+- `POST /sum`
+- `POST /multiply`
+
+CSV Format Requirements
+-----------------------
+- Square matrix (same number of rows and columns).
+- Integers only, no header row.
