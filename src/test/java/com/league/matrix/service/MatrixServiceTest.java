@@ -82,6 +82,16 @@ class MatrixServiceTest {
     }
 
     @Test
+    void rejectNonIntegerValue() {
+        MockMultipartFile file = new MockMultipartFile("file", "matrix.csv", "text/csv",
+                "Col1,2,3\n4,x,6\n7,8,9".getBytes(StandardCharsets.UTF_8));
+
+        assertThatThrownBy(() -> service.echo(file))
+                .isInstanceOf(MatrixProcessingException.class)
+                .hasMessageContaining("Invalid integer");
+    }
+
+    @Test
     void rejectEmptyFile() {
         MockMultipartFile file = new MockMultipartFile("file", "matrix.csv", "text/csv", new byte[0]);
 
